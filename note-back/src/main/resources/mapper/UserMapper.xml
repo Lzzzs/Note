@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lzzzs.mapper.UserMapper">
+    <insert id="createUser">
+        insert into users
+        values (#{id}, #{userid}, #{password}, #{createdTime}, #{avatarUrl})
+    </insert>
+    <select id="selectUserByUserId" parameterType="java.lang.String" resultType="top.lzzzs.entity.Users">
+        select *
+        from users
+        where userid = #{userid}
+    </select>
+    <select id="selectUser" resultType="top.lzzzs.entity.Users">
+        select *
+        from users
+        where userid = #{userId}
+          and password = #{password}
+    </select>
+    <insert id="initGrade">
+        insert into grade
+        values (#{userId}, 1, 0)
+    </insert>
+    <insert id="initPoint">
+        insert into point
+        values (#{userId}, 0)
+    </insert>
+</mapper>

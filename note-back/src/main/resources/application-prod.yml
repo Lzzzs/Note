@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://120.79.94.54:3306/pc?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 15070181343
+    driver-class-name: com.mysql.cj.jdbc.Driver
+resources-url:
+  base-url: http://120.79.94.54:8888/static/
+  image-out-url: static/note-img/

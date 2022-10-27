@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lzzzs.mapper.NoteMapper">
+    <insert id="saveNote" useGeneratedKeys="true" keyProperty="id">
+        insert into notes
+        values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0)
+    </insert>
+
+    <insert id="saveUserNoteRelation">
+        insert into user_note
+        values (null, #{userId}, #{noteId})
+    </insert>
+
+    <resultMap id="noteAndUserMap" type="top.lzzzs.entity.Notes">
+        <id property="id" column="noteId"/>
+        <result property="createdTime" column="note_created_time"/>
+        <result property="noteImg" column="note_img"/>
+        <result property="tag" column="tag"/>
+        <result property="title" column="title"/>
+        <association javaType="top.lzzzs.entity.Users" property="user" column="userId">
+            <id property="userid" column="userId"/>
+        </association>
+    </resultMap>
+    <select id="selectNoteByPager" resultMap="noteAndUserMap">
+        <choose>
+            <!-- if else-->
+            <when test="tag == null">
+                select u.userid userId, c.noteId, c.title, c.note_img, c.tag, c.created_time
+                note_created_time
+                from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time
+                from user_note un
+                left JOIN notes n
+                on un.note_id = n.id) c
+                LEFT JOIN users u
+                on c.user_id = u.id LIMIT #{page},#{size}
+            </when>
+            <otherwise>
+                select u.userid userId, c.noteId, c.title, c.content, c.note_img, c.tag, c.created_time
+                note_created_time from (
+                select un.user_id, n.id noteId, n.title, n.content, n.note_img, n.tag, n.created_time
+                from user_note un
+                left JOIN notes n
+                on un.note_id = n.id
+                ) c
+                LEFT JOIN users u
+                on c.user_id = u.id
+                WHERE c.tag = #{tag}
+                LIMIT #{page},#{size}
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getNoteCount" resultType="long">
+        <choose>
+            <when test="tag == null">
+                select count(1)
+                from notes
+            </when>
+            <otherwise>
+                select count(1) from notes where tag = #{tag}
+            </otherwise>
+        </choose>
+    </select>
+
+    <resultMap id="noteAndUserMapById" type="top.lzzzs.entity.Notes">
+        <id property="id" column="noteId"/>
+        <result property="createdTime" column="note_created_time"/>
+        <result property="noteImg" column="note_img"/>
+        <result property="tag" column="tag"/>
+        <result property="content" column="content"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="title" column="title"/>
+        <result property="likeNum" column="like_num"/>
+        <result property="collectNum" column="collect_num"/>
+        <association javaType="top.lzzzs.entity.Users" property="user" column="userId">
+            <id property="userid" column="userId"/>
+            <result property="avatarUrl" column="avatar_url"/>
+        </association>
+    </resultMap>
+    <select id="getNoteByNoteId" resultType="top.lzzzs.entity.Notes" resultMap="noteAndUserMapById">
+        select c.noteId,
+               u.userid userId,
+               u.avatar_url,
+               c.title,
+               c.content,
+               c.tag,
+               c.note_img,
+               c.created_time,
+               c.like_num,
+               c.collect_num
+        from (select n.id       noteId,
+                     un.user_id userId,
+                     n.title,
+                     n.content,
+                     n.tag,
+                     n.note_img,
+                     n.like_num,
+                     n.collect_num,
+                     n.created_time
+              from notes n
+                       LEFT JOIN user_note un on n.id = un.note_id
+              where n.id = #{id}) c
+                 LEFT JOIN users u on c.userId = u.id
+    </select>
+
+    <select id="selectNoteBylike" resultMap="noteAndUserMap">
+        select u.userid userId,
+               c.noteId,
+               c.title,
+               c.note_img,
+               c.tag,
+               c.created_time
+                        note_created_time
+        from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time
+              from user_note un
+                       left JOIN notes n
+                                 on un.note_id = n.id
+              where ${field} like CONCAT(CONCAT('%', #{searchValue}), '%')) c
+                 left JOIN users u
+                           on c.user_id = u.id LIMIT #{page}, #{size}
+    </select>
+
+    <select id="selectNoteBylikeUserId" resultMap="noteAndUserMap">
+        select u.userid userId,
+               c.noteId,
+               c.title,
+               c.note_img,
+               c.tag,
+               c.created_time
+                        note_created_time
+        from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time
+              from user_note un
+                       left JOIN notes n
+                                 on un.note_id = n.id) c
+                 left JOIN users u
+                           on c.user_id = u.id
+        where u.userid like CONCAT(CONCAT('%', #{searchValue}), '%')
+            LIMIT #{page}
+            , #{size}
+    </select>
+
+    <select id="getNoteBylikeTitleCount" resultType="long">
+        select count(1)
+        from notes
+        where title like CONCAT(CONCAT('%', #{searchValue}), '%')
+    </select>
+
+    <select id="getNoteBylikeUserIdCount" resultType="long">
+        select count(1)
+        from (select u.id
+              from users u
+              where userid like CONCAT(CONCAT('%', #{searchValue}), '%')) c
+                 join user_note un on c.id = un.user_id
+    </select>
+
+    <select id="getId" resultType="String">
+        select u.id
+        from users u
+        where u.userid = #{userId}
+    </select>
+
+    <select id="selectUserNoteLikeRelation" resultType="int">
+        select count(1)
+        from like_num l
+        where l.user_id = #{id}
+          and l.note_id = #{noteId}
+    </select>
+
+    <select id="selectUserNoteCollectRelation" resultType="int">
+        select count(1)
+        from collect_num c
+        where c.user_id = #{id}
+          and c.note_id = #{noteId}
+    </select>
+
+    <insert id="insertDianzanOne">
+        insert into like_num
+        values (#{userId}, #{noteId})
+    </insert>
+
+    <insert id="insertCollectOne">
+        insert into collect_num
+        values (#{userId}, #{noteId})
+    </insert>
+
+    <delete id="deleteDianzanOne">
+        delete
+        from like_num
+        where user_id = #{userId}
+          and note_id = #{noteId}
+    </delete>
+    <delete id="deleteCollectOne">
+        delete
+        from collect_num
+        where user_id = #{userId}
+          and note_id = #{noteId}
+    </delete>
+
+    <update id="addNoteLikeNum">
+        update notes
+        set like_num = like_num + 1
+        where id = #{noteId}
+    </update>
+
+    <update id="reduceNoteLikeNum">
+        update notes
+        set like_num = like_num - 1
+        where id = #{noteId}
+    </update>
+
+    <update id="addNoteCollectNum">
+        update notes
+        set collect_num = collect_num + 1
+        where id = #{noteId}
+    </update>
+
+    <update id="reduceNoteCollectNum">
+        update notes
+        set collect_num = collect_num - 1
+        where id = #{noteId}
+    </update>
+
+    <select id="getUserIdByNoteId" resultType="String">
+        select user_id
+        from user_note
+        where note_id = #{noteId}
+    </select>
+
+    <select id="getFirstCommentByNoteId" resultType="top.lzzzs.entity.Comments">
+        select c.id, c.user_id, c.comment_content, c.created_time, c.parent_id, c.reply_id, c.note_id
+        from comments c
+                 left join comment_like_num l on c.id = l.comment_id
+        where note_id = #{noteId}
+          and parent_id = 0
+        order by l.like_num desc, c.created_time desc
+    </select>
+
+    <select id="getCommentByCommentId" resultType="top.lzzzs.entity.Comments">
+        select *
+        from comments
+        where id = #{commentId}
+    </select>
+
+    <select id="getUserInfoById" resultType="java.util.Map">
+        select u.userid, u.avatar_url, g.grade
+        from users u
+                 left join grade g on u.id = g.user_id
+        where u.id = #{id}
+    </select>
+
+    <select id="getChildrenCommentsByFatherCommentId" resultType="top.lzzzs.entity.Comments">
+        select c.id, c.user_id, c.comment_content, c.created_time, c.parent_id, c.reply_id, c.note_id
+        from comments c
+                 left join comment_like_num l on c.id = l.comment_id
+        where parent_id = #{fatherCommentId}
+        order by l.like_num desc, c.created_time desc
+    </select>
+
+    <select id="getFirstCommentLikeByNoteId" resultType="top.lzzzs.common.dto.CommentLikeNumDto">
+        select c.id, cln.like_num
+        from comments c
+                 left join comment_like_num cln on c.id = cln.comment_id
+        where c.note_id = #{noteId}
+          and c.parent_id = 0
+    </select>
+
+    <select id="getCommentLikeRelation" resultType="int">
+        select count(1)
+        from comment_like_relation
+        where user_id = #{id}
+          and comment_id = #{commentId}
+    </select>
+
+    <select id="getChildrenCommentLikeRelationByFatherCommentId" resultType="top.lzzzs.common.dto.CommentLikeNumDto">
+        select c.id, cln.like_num
+        from comments c
+                 left join comment_like_num cln on c.id = cln.comment_id
+        where parent_id = #{fatherCommentId}
+    </select>
+
+    <insert id="addCommentLikeRelation">
+        insert into comment_like_relation
+        values (#{id}, #{commentId})
+    </insert>
+
+    <update id="addCommentLikeNum">
+        update comment_like_num
+        set like_num = like_num + 1
+        where comment_id = #{commentId}
+    </update>
+
+    <delete id="reduceCommentLikeRelation">
+        delete
+        from comment_like_relation
+        where user_id = #{id}
+          and comment_id = #{commentId}
+    </delete>
+
+    <update id="reduceCommentLikeNum">
+        update comment_like_num
+        set like_num = like_num - 1
+        where comment_id = #{commentId}
+    </update>
+
+    <insert id="saveComment" useGeneratedKeys="true" keyProperty="id">
+        insert into comments
+        values (null, #{userId}, #{commentContent}, #{createdTime}, #{parentId}, #{replyId}, #{noteId})
+    </insert>
+
+    <insert id="initCommentLikeNum">
+        insert into comment_like_num
+        values (#{id}, 0)
+    </insert>
+</mapper>

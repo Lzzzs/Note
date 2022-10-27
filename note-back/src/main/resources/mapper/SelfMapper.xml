@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lzzzs.mapper.SelfMapper">
+    <select id="getGradeInfo" resultType="top.lzzzs.entity.Grade">
+        select *
+        from grade
+        where user_id = #{id}
+    </select>
+    <select id="getPointInfo" resultType="java.lang.Integer">
+        select point_num
+        from point
+        where user_id = #{id}
+    </select>
+
+    <update id="updateGradeInfo">
+        update grade
+        set grade      = #{grade},
+            experience = #{experience}
+        where user_id = #{userId}
+    </update>
+    <update id="addPoint">
+        update point
+        set point_num = point_num + #{incrValue}
+        where user_id = #{userId}
+    </update>
+    <update id="exchangeAward">
+        update point
+        set point_num = point_num - #{awardPoint}
+        where user_id = #{userId}
+    </update>
+
+    <select id="getUserAllNotesByUserId" resultType="java.util.Map">
+        select un.note_id noteId, n.note_img noteImg
+        from user_note un
+                 left join notes n on un.note_id = n.id
+        where un.user_id = #{id} limit #{page}
+            , #{size}
+    </select>
+    <select id="getUserAllNotesCount" resultType="int">
+        select count(1)
+        from user_note un
+                 left join notes n on un.note_id = n.id
+        where un.user_id = #{id}
+    </select>
+
+
+    <select id="getUserAllCollectNotesByUserId" resultType="java.util.Map">
+        select cn.note_id noteId, n.note_img noteImg
+        from collect_num cn
+                 left join notes n on cn.note_id = n.id
+        where cn.user_id = #{id} limit #{page}
+            , #{size}
+    </select>
+    <select id="getUserAllCollectNotesCount" resultType="int">
+        select count(1)
+        from collect_num cn
+                 left join notes n on cn.note_id = n.id
+        where cn.user_id = #{id}
+    </select>
+</mapper>

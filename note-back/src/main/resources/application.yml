@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: note-back
+  profiles:
+    active: dev #切换环境 dev prod
+  mvc:
+    static-path-pattern: /static/** # 配置访问静态资源前缀
+  servlet:
+    multipart:
+      max-file-size: 10MB # 设置文件上传最大大小为10MB
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: top.lzzzs.entity
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰映射
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+server:
+  port: 8888
+  tomcat:
+    # 设置内置Tomcat请求大小为10MB
+    max-http-form-post-size: 10MB

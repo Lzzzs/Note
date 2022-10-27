@@ -1,0 +1,30 @@
+{
+  "id": "3669883",
+  "name": "pc",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "145473",
+      "name": "加星收藏",
+      "font_class": "jiaxingshoucang",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "6337455",
+      "name": "点赞",
+      "font_class": "dianzan",
+      "unicode": "ec7f",
+      "unicode_decimal": 60543
+    },
+    {
+      "icon_id": "14445364",
+      "name": "锁",
+      "font_class": "suo",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    }
+  ]
+}
