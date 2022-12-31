@@ -1,8 +1,11 @@
 <template>
   <el-header class="header">
-    <div class="logo" @click="toInfo">
-      <span class="logo-image"></span>
-      <span class="logo-text">NSSS</span>
+    <div class="header-left">
+      <div @click="toInfo" class="logo">
+        <span class="logo-image"></span>
+        <span class="logo-text">NSSS</span>
+      </div>
+      <el-link style="font-size: 16px" @click="toGroup">group</el-link>
     </div>
     <div class="header-other">
       <div class="search">
@@ -37,16 +40,16 @@
 </template>
 
 <script>
-import { logout } from "@/utils/userUtil.js";
+import { logout } from '@/utils/userUtil.js'
 export default {
   data() {
     return {
-      searchValue: "",
-    };
+      searchValue: ''
+    }
   },
   computed: {
     userInfo() {
-      return this.$store.state.userInfo;
+      return this.$store.state.userInfo
     },
     isShowPostNoteBtn() {
       /**
@@ -54,44 +57,47 @@ export default {
        * 用户当前在提交笔记页面 不显示
        */
       if (this.$store.state.userInfo) {
-        return this.$route.path !== "/submit-note";
+        return this.$route.path !== '/submit-note'
       }
-      return false;
-    },
+      return false
+    }
   },
   methods: {
     toLogin() {
-      this.$router.push("/login");
+      this.$router.push('/login')
     },
     toRegister() {
-      this.$router.push("/register");
+      this.$router.push('/register')
     },
     handleLogout() {
-      logout();
+      logout()
       // 如果在self的页面退出的话 直接跳转主页
-      if (this.$route.path.indexOf("self") != -1) {
-        this.toInfo();
+      if (this.$route.path.indexOf('self') != -1) {
+        this.toInfo()
       }
-      this.$message.success("退出成功");
+      this.$message.success('退出成功')
     },
     toSelf() {
-      if (this.$route.path !== "/self/notes") {
-        this.$router.push("/self");
+      if (this.$route.path !== '/self/notes') {
+        this.$router.push('/self')
       }
     },
     handlePostNote() {
-      this.$router.push("/submit-note");
+      this.$router.push('/submit-note')
     },
     toInfo() {
-      if (this.$route.path !== "/info") {
-        this.$router.push("/info");
+      if (this.$route.path !== '/info') {
+        this.$router.push('/info')
       }
     },
     handleSearch() {
-      this.$bus.$emit("searchValue", this.searchValue);
+      this.$bus.$emit('searchValue', this.searchValue)
     },
-  },
-};
+    toGroup() {
+      this.$router.push('/group')
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -102,28 +108,35 @@ export default {
   background: #fafbfd;
   padding: 0px 50px;
   border-bottom: 1px solid #dcdcdc;
-  .logo {
+  .header-left {
     display: flex;
     align-items: center;
     user-select: none;
-    &:hover {
-      cursor: pointer;
-    }
 
-    .logo-image {
-      width: 32px;
-      height: 32px;
-      display: block;
-      background: url(../assets/logo.png) center no-repeat;
-      background-size: 28px;
-      border-radius: 7px;
-      border: 1px solid #dcdcdc;
-    }
+    .logo {
+      display: flex;
+      align-items: center;
 
-    .logo-text {
-      font-family: Sans-serif;
-      font-weight: 900;
-      margin-left: 10px;
+      &:hover {
+        cursor: pointer;
+      }
+      margin-right: 40px;
+
+      .logo-image {
+        width: 32px;
+        height: 32px;
+        display: block;
+        background: url(../assets/logo.png) center no-repeat;
+        background-size: 28px;
+        border-radius: 7px;
+        border: 1px solid #dcdcdc;
+      }
+
+      .logo-text {
+        font-family: Sans-serif;
+        font-weight: 900;
+        margin-left: 10px;
+      }
     }
   }
 
