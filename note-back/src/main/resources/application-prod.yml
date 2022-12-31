@@ -7,3 +7,11 @@ spring:
 resources-url:
   base-url: http://120.79.94.54:8888/static/
   image-out-url: static/note-img/
+server:
+  tomcat:
+    basedir: logs
+    accesslog:
+      pattern: '%t %m %s %v %U'
+      enabled: true
+      directory: access-logs
+      buffered: false

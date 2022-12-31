@@ -5,7 +5,7 @@
       <el-input
         style="width: 350px"
         type="text"
-        placeholder="请输入笔记标题"
+        placeholder="please input note title"
         v-model="title"
         maxlength="20"
         show-word-limit
@@ -17,7 +17,7 @@
       <span class="require">Note Tag </span>
       <el-select
         v-model="tagValue"
-        placeholder="请选择tag"
+        placeholder="please select tag"
         style="width: 350px"
       >
         <el-option v-for="item in tagOptions" :key="item" :value="item">
@@ -42,15 +42,18 @@
         :http-request="submitNoteData"
         :limit="1"
       >
-        <el-button size="small" type="primary">上传笔记图片</el-button>
+        <el-button size="small" type="primary">post note image</el-button>
         <div slot="tip" class="el-upload__tip">
-          只能上传jpg/png/jpeg格式的单个图片，且不超过10MB
+          Only a single image in jpg/png/jpeg format can be uploaded and the
+          maximum size is 10MB
         </div>
       </el-upload>
     </div>
 
     <div class="submit">
-      <el-button type="primary" @click="handleSubmitNote">提交笔记</el-button>
+      <el-button type="primary" @click="handleSubmitNote"
+        >submit note</el-button
+      >
     </div>
   </div>
 </template>

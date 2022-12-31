@@ -1,7 +1,6 @@
 package top.lzzzs.common;
 
 import java.io.Serializable;
-
 public class R implements Serializable {
     private int code;
     private String message;
