@@ -220,11 +220,11 @@ export default {
     }
     .note-content-skeleton-note-detail {
       display: flex;
-      justify-content: start;
+      justify-content: flex-start;
     }
     .note-content-skeleton-author {
       display: flex;
-      justify-content: start;
+      justify-content: flex-start;
       align-items: center;
       margin-top: 10px;
     }

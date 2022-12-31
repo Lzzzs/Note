@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import NoteItem from './NoteItem.vue';
-import { getUserAllNotesByUserId } from '@/network/self/index.js';
+import NoteItem from "./NoteItem.vue";
+import { getUserAllNotesByUserId } from "@/network/self/index.js";
 export default {
   data() {
     return {

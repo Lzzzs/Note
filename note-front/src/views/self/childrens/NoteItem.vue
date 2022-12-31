@@ -34,28 +34,28 @@ export default {
   props: ['itemData'],
   data() {
     return {
-      isLoading: true,
-    };
+      isLoading: true
+    }
   },
   beforeCreate() {
-    this.isLoading = true;
+    this.isLoading = true
   },
   methods: {
     handleGetNote() {
       this.$router.push({
         path: '/notes',
-        query: { id: this.itemData.noteId },
-      });
+        query: { id: this.itemData.noteId }
+      })
     },
     // 图片加载完成回调
     handleLoad() {
       // 延时调用，防止页面抖动
       setTimeout(() => {
-        this.isLoading = false;
-      }, 500);
-    },
-  },
-};
+        this.isLoading = false
+      }, 500)
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

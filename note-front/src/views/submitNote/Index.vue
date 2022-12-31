@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import SubmitNoteContent from './childrens/SubmitNoteContent.vue';
+import SubmitNoteContent from "./childrens/SubmitNoteContent.vue";
 export default { components: { SubmitNoteContent } };
 </script>
 

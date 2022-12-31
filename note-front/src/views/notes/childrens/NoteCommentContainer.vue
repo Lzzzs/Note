@@ -40,16 +40,16 @@
 </template>
 
 <script>
-import NoteCommentList from './NoteCommentList.vue';
+import NoteCommentList from "./NoteCommentList.vue";
 import {
   getCommentByNoteId,
   getCommentLikeRelation,
   saveComment,
-} from '@/network/note/index.js';
+} from "@/network/note/index.js";
 export default {
   data() {
     return {
-      commentContent: '',
+      commentContent: "",
       commentData: [],
       likeRelation: [],
       isReply: false,
@@ -70,14 +70,14 @@ export default {
     replyPlaceholder() {
       return this.isReply
         ? `Reply @${this.currentReplyData.userName}`
-        : 'Post A Friendly Comment';
+        : "Post A Friendly Comment";
     },
     isLogin() {
       return this.$store.state.userInfo;
     },
     currentUserAvatar() {
       if (!this.$store.state.userInfo)
-        return 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png';
+        return "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png";
       return this.$store.state.userInfo.avatarUrl;
     },
   },
@@ -101,11 +101,11 @@ export default {
         noteId: this.$route.query.id,
       };
       if (this.commentContent.length > 130) {
-        this.$message.warning('评论内容长度不能超过130个字符');
+        this.$message.warning("评论内容长度不能超过130个字符");
         return;
       }
       if (this.commentContent.trim().length == 0) {
-        this.$message.warning('不能发空白内容');
+        this.$message.warning("不能发空白内容");
         return;
       }
       if (this.isReply) {
@@ -121,8 +121,8 @@ export default {
       console.log(commentData);
       saveComment(commentData).then(() => {
         this.isReply = false;
-        this.commentContent = '';
-        this.$message.success('发布评论成功');
+        this.commentContent = "";
+        this.$message.success("发布评论成功");
         this.getData();
       });
     },
@@ -133,7 +133,7 @@ export default {
       });
     },
     replyUser(replyCommentData) {
-      if (this.commentContent) this.commentContent = '';
+      if (this.commentContent) this.commentContent = "";
       this.currentReplyData = replyCommentData;
       this.isReply = true;
       this.$refs.postCommentInputRef.focus();

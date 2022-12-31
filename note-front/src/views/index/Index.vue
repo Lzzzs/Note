@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import Header from '../../components/Header.vue';
-import Footer from '../../components/Footer.vue';
+import Header from "../../components/Header.vue";
+import Footer from "../../components/Footer.vue";
 export default {
   components: { Header, Footer },
   created() {
@@ -25,14 +25,14 @@ export default {
     const { userInfo, token } = this.$store.state;
     if (userInfo == null) {
       this.$store.commit(
-        'SET_USER_INFO',
-        JSON.parse(localStorage.getItem('userInfo'))
+        "SET_USER_INFO",
+        JSON.parse(localStorage.getItem("userInfo"))
       );
     }
     if (token == null) {
       this.$store.commit(
-        'SET_TOKEN',
-        JSON.parse(localStorage.getItem('token'))
+        "SET_TOKEN",
+        JSON.parse(localStorage.getItem("token"))
       );
     }
   },

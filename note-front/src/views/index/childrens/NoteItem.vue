@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     handleGetNote() {
-      this.$router.push({ path: '/notes', query: { id: this.itemData.id } });
+      this.$router.push({ path: "/notes", query: { id: this.itemData.id } });
     },
     // 图片加载完成回调
     handleLoad() {

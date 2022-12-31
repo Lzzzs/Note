@@ -37,11 +37,11 @@
 </template>
 
 <script>
-import { logout } from '@/utils/userUtil.js';
+import { logout } from "@/utils/userUtil.js";
 export default {
   data() {
     return {
-      searchValue: '',
+      searchValue: "",
     };
   },
   computed: {
@@ -54,41 +54,41 @@ export default {
        * 用户当前在提交笔记页面 不显示
        */
       if (this.$store.state.userInfo) {
-        return this.$route.path !== '/submit-note';
+        return this.$route.path !== "/submit-note";
       }
       return false;
     },
   },
   methods: {
     toLogin() {
-      this.$router.push('/login');
+      this.$router.push("/login");
     },
     toRegister() {
-      this.$router.push('/register');
+      this.$router.push("/register");
     },
     handleLogout() {
       logout();
       // 如果在self的页面退出的话 直接跳转主页
-      if (this.$route.path.indexOf('self') != -1) {
+      if (this.$route.path.indexOf("self") != -1) {
         this.toInfo();
       }
-      this.$message.success('退出成功');
+      this.$message.success("退出成功");
     },
     toSelf() {
-      if (this.$route.path !== '/self/notes') {
-        this.$router.push('/self');
+      if (this.$route.path !== "/self/notes") {
+        this.$router.push("/self");
       }
     },
     handlePostNote() {
-      this.$router.push('/submit-note');
+      this.$router.push("/submit-note");
     },
     toInfo() {
-      if (this.$route.path !== '/info') {
-        this.$router.push('/info');
+      if (this.$route.path !== "/info") {
+        this.$router.push("/info");
       }
     },
     handleSearch() {
-      this.$bus.$emit('searchValue', this.searchValue);
+      this.$bus.$emit("searchValue", this.searchValue);
     },
   },
 };

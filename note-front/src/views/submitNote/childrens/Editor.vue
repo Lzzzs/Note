@@ -11,21 +11,21 @@
 </template>
 
 <script>
-import { saveNoteContentImage } from '@/network/note/index.js';
+import { saveNoteContentImage } from "@/network/note/index.js";
 export default {
   model: {
-    prop: 'content',
-    event: 'updateContent',
+    prop: "content",
+    event: "updateContent",
   },
   props: {
     content: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   data() {
     return {
-      editorValue: '',
+      editorValue: "",
       toolbars: {
         bold: true, // 粗体
         italic: true, // 斜体
@@ -78,9 +78,9 @@ export default {
       const formdata = new FormData();
       for (const key in this.imgFiles) {
         formdata.append(
-          'files',
+          "files",
           this.imgFiles[key],
-          `${key}.${this.imgFiles[key].name.split('.')[1]}`
+          `${key}.${this.imgFiles[key].name.split(".")[1]}`
         );
       }
       debugger;
@@ -96,7 +96,7 @@ export default {
          *    ...
          */
         for (const key in res.data) {
-          this.$refs.md.$img2Url(key.split('.')[0], res.data[key]);
+          this.$refs.md.$img2Url(key.split(".")[0], res.data[key]);
         }
 
         return true;
@@ -106,7 +106,7 @@ export default {
   watch: {
     // v-model
     editorValue(value) {
-      this.$emit('updateContent', value);
+      this.$emit("updateContent", value);
     },
   },
 };

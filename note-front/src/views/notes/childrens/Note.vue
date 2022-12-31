@@ -6,15 +6,15 @@
 </template>
 
 <script>
-import 'github-markdown-css/github-markdown-light.css';
-import MarkdownIt from 'markdown-it';
+import "github-markdown-css/github-markdown-light.css";
+import MarkdownIt from "markdown-it";
 export default {
   props: {
     contentText: String,
   },
   data() {
     return {
-      transitionContentText: '',
+      transitionContentText: "",
       loading: true,
     };
   },

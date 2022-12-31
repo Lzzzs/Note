@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import { getGradeInfo } from '@/network/self/index.js';
-import { getCurrentGradeContainer } from '@/utils/gradeUtil.js';
+import { getGradeInfo } from "@/network/self/index.js";
+import { getCurrentGradeContainer } from "@/utils/gradeUtil.js";
 export default {
   data() {
     return {
@@ -68,7 +68,7 @@ export default {
     userInfo() {
       return this.$store.state.userInfo
         ? this.$store.state.userInfo
-        : { avatarUrl: '', userid: '' };
+        : { avatarUrl: "", userid: "" };
     },
     gradeInfo() {
       return this.gradeData ? this.gradeData : { grade: 1, experience: 0 };
@@ -100,7 +100,7 @@ export default {
       this.gradeData = data;
     },
     format(percentage) {
-      return percentage === 100 ? '满' : `100/${percentage}`;
+      return percentage === 100 ? "满" : `100/${percentage}`;
     },
   },
 };

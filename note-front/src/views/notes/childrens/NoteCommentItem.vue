@@ -25,7 +25,7 @@
         <span class="time">{{ itemData.createdTime }}</span>
         <span class="dianzan" :class="isLiked">
           <i class="iconfont icon-dianzan dianzan" @click="handleDianzan"> </i>
-          {{ itemLike ? itemLike.likeNum : '' }}
+          {{ itemLike ? itemLike.likeNum : "" }}
         </span>
         <span class="reply" @click="handleReply">Reply</span>
       </div>
@@ -37,9 +37,9 @@
 import {
   addDianzanComment,
   reduceDianzanComment,
-} from '@/network/note/index.js';
+} from "@/network/note/index.js";
 export default {
-  props: ['itemData', 'itemLike', 'imgSize'],
+  props: ["itemData", "itemLike", "imgSize"],
   data() {
     return {};
   },
@@ -51,14 +51,14 @@ export default {
       return this.itemData.level != 0;
     },
     isLiked() {
-      if (!this.itemLike) return '';
-      return this.itemLike.isLiked == 1 ? 'active' : '';
+      if (!this.itemLike) return "";
+      return this.itemLike.isLiked == 1 ? "active" : "";
     },
   },
   methods: {
     handleDianzan() {
       if (!this.isLogin()) {
-        this.$message.warning('请登录之后再进行操作');
+        this.$message.warning("请登录之后再进行操作");
         return;
       }
       if (this.itemLike.isLiked === 0) {
@@ -78,7 +78,7 @@ export default {
       }
     },
     handleReply() {
-      this.$emit('replyUser', {
+      this.$emit("replyUser", {
         id: this.itemData.id,
         userName: this.itemData.userId,
         parentId: this.itemData.parentId,
@@ -86,7 +86,7 @@ export default {
       });
     },
     reloadGetData() {
-      this.$emit('reloadLikeData');
+      this.$emit("reloadLikeData");
     },
     isLogin() {
       return this.$store.state.userInfo !== null;

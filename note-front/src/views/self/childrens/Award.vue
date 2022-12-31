@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import AwardItem from './AwardItem.vue';
-import { getPointInfo, exchangeAward } from '@/network/self/index.js';
+import AwardItem from "./AwardItem.vue";
+import { getPointInfo, exchangeAward } from "@/network/self/index.js";
 export default {
   data() {
     return {
@@ -40,19 +40,19 @@ export default {
     },
     hanldeBuy(selectAwardPoint) {
       if (this.point < selectAwardPoint) {
-        this.$message.warning('当前积分不够');
+        this.$message.warning("当前积分不够");
       } else {
-        this.$confirm(`确认兑换积分为${selectAwardPoint}的奖品吗？`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
+        this.$confirm(`确认兑换积分为${selectAwardPoint}的奖品吗？`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
         }).then(async () => {
           await exchangeAward(
             this.$store.state.userInfo.userid,
             selectAwardPoint
           );
           await this.getData();
-          this.$message.success('兑换成功！');
+          this.$message.success("兑换成功！");
         });
       }
     },

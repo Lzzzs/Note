@@ -9,8 +9,8 @@
 const codeMap = new Map();
 
 const codes = [
-  [20001, '用户未登录，请先登录', '/login'],
-  [50004, '笔记不存在', '/'],
+  [20001, "用户未登录，请先登录", "/login"],
+  [50004, "笔记不存在", "/"],
 ];
 
 for (const item of codes) {

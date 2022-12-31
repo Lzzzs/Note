@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     handleExchangeAward() {
-      this.$emit('buy', this.point);
+      this.$emit("buy", this.point);
     },
   },
 };

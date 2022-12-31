@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  props: ['itemData'],
+  props: ["itemData"],
   data() {
     return {
       isLoading: true,
@@ -43,7 +43,7 @@ export default {
   methods: {
     handleGetNote() {
       this.$router.push({
-        path: '/notes',
+        path: "/notes",
         query: { id: this.itemData.noteId },
       });
     },

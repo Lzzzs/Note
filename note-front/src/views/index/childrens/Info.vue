@@ -26,34 +26,34 @@
 </template>
 
 <script>
-import InfoBody from './InfoBody.vue';
+import InfoBody from "./InfoBody.vue";
 export default {
-  name: 'info',
+  name: "info",
   data() {
     return {
-      currentTag: '',
-      infoList: ['HTML', 'MySQL', 'PHP', 'Java', 'Python', 'More'],
-      moreList: ['JavaScript', 'NodeJs', 'Go'],
+      currentTag: "",
+      infoList: ["HTML", "MySQL", "PHP", "Java", "Python", "More"],
+      moreList: ["JavaScript", "NodeJs", "Go"],
       isShowMore: false,
     };
   },
   components: { InfoBody },
   methods: {
     selectTagValue(currentTag) {
-      if (currentTag == 'More') return;
+      if (currentTag == "More") return;
       this.currentTag = currentTag;
     },
     handleClearTagValue() {
       // 当搜索时，清除tag
-      this.currentTag = '';
+      this.currentTag = "";
       console.log(123);
     },
     handleMouseEnter(item) {
-      if (item != 'More') return;
+      if (item != "More") return;
       this.isShowMore = true;
     },
     handleMouseLeave(item) {
-      if (item != 'More') return;
+      if (item != "More") return;
       this.isShowMore = false;
     },
   },

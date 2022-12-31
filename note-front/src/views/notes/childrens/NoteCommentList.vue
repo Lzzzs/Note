@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import NoteCommentItem from './NoteCommentItem.vue';
+import NoteCommentItem from "./NoteCommentItem.vue";
 
 export default {
-  props: ['listData', 'likeData'],
+  props: ["listData", "likeData"],
   data() {
     return {
       imgInitSize: 50,
@@ -49,10 +49,10 @@ export default {
   },
   methods: {
     reloadLikeData() {
-      this.$emit('reloadLikeData');
+      this.$emit("reloadLikeData");
     },
     replyUser(replyCommentData) {
-      this.$emit('replyUser', replyCommentData);
+      this.$emit("replyUser", replyCommentData);
     },
   },
 };

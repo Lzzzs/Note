@@ -59,19 +59,19 @@
 </template>
 
 <script>
-import Editor from './Editor.vue';
-import { saveNoteData } from '@/network/note/index.js';
+import Editor from "./Editor.vue";
+import { saveNoteData } from "@/network/note/index.js";
 
 export default {
   data() {
     return {
-      title: '',
-      tagValue: '',
-      noteContent: '',
-      tagOptions: ['HTML', 'MySQL', 'PHP', 'Java', 'Python'],
-      uploadUrl: '',
+      title: "",
+      tagValue: "",
+      noteContent: "",
+      tagOptions: ["HTML", "MySQL", "PHP", "Java", "Python"],
+      uploadUrl: "",
       fileList: [],
-      fileNameMatch: ['jpeg', 'jpg', 'png'],
+      fileNameMatch: ["jpeg", "jpg", "png"],
     };
   },
   components: { Editor },
@@ -86,26 +86,26 @@ export default {
       }
 
       const formData = new FormData();
-      formData.append('noteImg', param.file);
-      formData.append('title', this.title);
-      formData.append('content', this.noteContent);
-      formData.append('tag', this.tagValue);
-      formData.append('userId', this.$store.state.userInfo.userid);
+      formData.append("noteImg", param.file);
+      formData.append("title", this.title);
+      formData.append("content", this.noteContent);
+      formData.append("tag", this.tagValue);
+      formData.append("userId", this.$store.state.userInfo.userid);
 
       saveNoteData(formData).then(() => {
-        this.$message.success('笔记发布成功');
-        this.$router.push('/');
+        this.$message.success("笔记发布成功");
+        this.$router.push("/");
       });
     },
     validateNoteInfo() {
       console.log();
       if (
-        this.title == '' ||
-        this.tagValue == '' ||
-        this.noteContent == '' ||
+        this.title == "" ||
+        this.tagValue == "" ||
+        this.noteContent == "" ||
         this.$refs.upload.uploadFiles.length == 0
       ) {
-        this.$message.warning('信息未填完整，请检查');
+        this.$message.warning("信息未填完整，请检查");
         return false;
       }
       return true;
@@ -119,12 +119,12 @@ export default {
     checkFile(file) {
       //上传之前的操作，file上传的文件对象
       let name = file.name;
-      if (name.lastIndexOf('.') == -1) {
-        this.$message.warning('文件格式不正确');
+      if (name.lastIndexOf(".") == -1) {
+        this.$message.warning("文件格式不正确");
         return false;
       } else {
         //获取后缀
-        let suff = name.substring(name.lastIndexOf('.') + 1);
+        let suff = name.substring(name.lastIndexOf(".") + 1);
         var count = 0;
         //遍历提前定义好的后缀数组
         for (var i in this.fileNameMatch) {
@@ -137,14 +137,14 @@ export default {
         }
         //如果没匹配到
         if (count == 0) {
-          this.$message.warning('只能上传jpg,png,jpeg格式的图片');
+          this.$message.warning("只能上传jpg,png,jpeg格式的图片");
           return false;
         }
       }
 
       //判断文件大小
       if (file.size > 1024 * 1024 * 10) {
-        this.$message.warning('文件大小不能超过10MB');
+        this.$message.warning("文件大小不能超过10MB");
         return false;
       }
     },
@@ -163,7 +163,7 @@ export default {
 
   .require {
     &::before {
-      content: '*';
+      content: "*";
       color: #f56c6c;
       margin-right: 4px;
     }

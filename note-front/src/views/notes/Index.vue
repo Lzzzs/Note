@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import NoteBreadcrumb from './childrens/NoteBreadcrumb.vue';
-import NoteContent from './childrens/NoteContent.vue';
+import NoteBreadcrumb from "./childrens/NoteBreadcrumb.vue";
+import NoteContent from "./childrens/NoteContent.vue";
 import {
   getNoteByNoteId,
   getUserNoteAllRelation,
-} from '@/network/note/index.js';
+} from "@/network/note/index.js";
 
 export default {
   data() {

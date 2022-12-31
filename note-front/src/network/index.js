@@ -1,12 +1,12 @@
-import axios from 'axios';
-import { Message } from 'element-ui';
-import codeMap from './ResultCode';
-import router from '@/router';
-import { logout } from '@/utils/userUtil.js';
-import { isJSON } from '@/utils/jsonUtil.js';
-import { refreshTokenApi } from './login/index';
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
+import axios from "axios";
+import { Message } from "element-ui";
+import codeMap from "./ResultCode";
+import router from "@/router";
+import { logout } from "@/utils/userUtil.js";
+import { isJSON } from "@/utils/jsonUtil.js";
+import { refreshTokenApi } from "./login/index";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 NProgress.configure({ showSpinner: false }); // 关闭进度条圆环
 
@@ -20,7 +20,7 @@ const instance = axios.create({
  * @param {*} config
  */
 function generateAuthorizationHeader(config) {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
   }
@@ -65,16 +65,16 @@ function addSubscriber(callback) {
 }
 
 function refreshTokenRequst() {
-  const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   refreshTokenApi({
     loginInfo: {
       userId: userInfo.userid,
     },
     refreshToken: refreshToken,
   }).then((res) => {
-    localStorage.setItem('refreshToken', JSON.stringify(res.data.refreshToken));
-    localStorage.setItem('token', JSON.stringify(res.data.token));
+    localStorage.setItem("refreshToken", JSON.stringify(res.data.refreshToken));
+    localStorage.setItem("token", JSON.stringify(res.data.token));
     onAccessTokenFetched();
     isRefreshing = true;
   });
@@ -111,8 +111,8 @@ function responseSuccessHandler(res) {
       Message.error(errMessage);
 
       // 如果需要跳转
-      if (to != '') {
-        if (to == '/login') {
+      if (to != "") {
+        if (to == "/login") {
           /**
            * 跳转前 先把localStorage中关于用户的信息先删除
            * 因为在router.beforeEach拦截了关于用户有localStorage的信息无法跳转登录和注册页面
@@ -142,19 +142,19 @@ instance.interceptors.response.use(responseSuccessHandler, (err) => {
   NProgress.done();
   // 只有refrehToken过期才会来到这，token过期只会返回对应的响应码，refreshToken过期则是服务器响应
   if (err.response.status === 401) {
-    Message.warning('登录态已过期，请重新登陆');
+    Message.warning("登录态已过期，请重新登陆");
     /**
      * 跳转前 先把localStorage中关于用户的信息先删除
      * 因为在router.beforeEach拦截了关于用户有localStorage的信息无法跳转登录和注册页面
      */
     logout();
-    router.push('/login');
+    router.push("/login");
 
     return Promise.reject(err);
   }
   let errMessage = err.response.data.message;
   if (err.response.data.message == undefined) {
-    errMessage = '请检查网络是否连接';
+    errMessage = "请检查网络是否连接";
   }
   Message.error(errMessage);
   return Promise.reject(err);

@@ -1,12 +1,12 @@
-import instance from '../index';
+import instance from "../index";
 
 export function saveNoteData(data) {
-  return instance.post('/note/saveNoteData', data);
+  return instance.post("/note/saveNoteData", data);
 }
 
-export function getNotes(page, size, tag = '') {
+export function getNotes(page, size, tag = "") {
   let base = `/note/getNotes?page=${page}&size=${size}`;
-  if (tag != '') {
+  if (tag != "") {
     base += `&tag=${tag}`;
   }
   return instance.get(base);
@@ -17,7 +17,7 @@ export function getNoteByNoteId(id) {
 }
 
 export function saveNoteContentImage(data) {
-  return instance.post('/note/saveNoteContentImage', data);
+  return instance.post("/note/saveNoteContentImage", data);
 }
 
 export function searchByLike(page, size, searchValue) {
@@ -36,16 +36,16 @@ export function getUserNoteAllRelation(userId, noteId) {
  * 收藏和点赞的添加和删除
  */
 export function insertDianzanOne(data) {
-  return instance.post('/note/insertDianzanOne', data);
+  return instance.post("/note/insertDianzanOne", data);
 }
 export function insertCollectOne(data) {
-  return instance.post('/note/insertCollectOne', data);
+  return instance.post("/note/insertCollectOne", data);
 }
 export function deleteDianzanOne(data) {
-  return instance.post('/note/deleteDianzanOne', data);
+  return instance.post("/note/deleteDianzanOne", data);
 }
 export function deleteCollectOne(data) {
-  return instance.post('/note/deleteCollectOne', data);
+  return instance.post("/note/deleteCollectOne", data);
 }
 
 export function getCommentByNoteId(noteId) {
@@ -58,11 +58,11 @@ export function getCommentLikeRelation(userId, noteId) {
 }
 
 export function addDianzanComment(data) {
-  return instance.post('/note/addDianzanComment', data);
+  return instance.post("/note/addDianzanComment", data);
 }
 export function reduceDianzanComment(data) {
-  return instance.post('/note/reduceDianzanComment', data);
+  return instance.post("/note/reduceDianzanComment", data);
 }
 export function saveComment(data) {
-  return instance.post('/note/saveComment', data);
+  return instance.post("/note/saveComment", data);
 }

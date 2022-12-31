@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from "vue";
 import {
   Button,
   Header,
@@ -26,7 +26,7 @@ import {
   Skeleton,
   SkeletonItem,
   MessageBox,
-} from 'element-ui';
+} from "element-ui";
 
 Vue.use(Button);
 Vue.use(Header);

@@ -50,28 +50,28 @@
 </template>
 
 <script>
-import { login } from '@/network/login/index.js';
+import { login } from "@/network/login/index.js";
 
 export default {
   data() {
     return {
       loginInfo: {
-        userId: '',
-        password: '',
+        userId: "",
+        password: "",
       },
       loginFormRule: {
         userId: [
           {
             required: true,
-            message: 'userId不能为空',
-            trigger: 'blur',
+            message: "userId不能为空",
+            trigger: "blur",
           },
         ],
         password: [
           {
             required: true,
-            message: '密码不能为空',
-            trigger: 'blur',
+            message: "密码不能为空",
+            trigger: "blur",
           },
         ],
       },
@@ -85,16 +85,16 @@ export default {
             console.log(res);
 
             // save data
-            this.$store.commit('SET_USER_INFO', res.data.user);
-            this.$store.commit('SET_TOKEN', res.data.token);
-            localStorage.setItem('token', JSON.stringify(res.data.token));
-            localStorage.setItem('userInfo', JSON.stringify(res.data.user));
+            this.$store.commit("SET_USER_INFO", res.data.user);
+            this.$store.commit("SET_TOKEN", res.data.token);
+            localStorage.setItem("token", JSON.stringify(res.data.token));
+            localStorage.setItem("userInfo", JSON.stringify(res.data.user));
             localStorage.setItem(
-              'refreshToken',
+              "refreshToken",
               JSON.stringify(res.data.refreshToken)
             );
 
-            this.$router.push('/');
+            this.$router.push("/");
           });
         }
       });

@@ -1,4 +1,4 @@
-import instance from '../index.js';
+import instance from "../index.js";
 
 export function getGradeInfo(userId) {
   return instance.get(`/self/getGradeInfo?userId=${userId}`);
