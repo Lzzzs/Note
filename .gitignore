@@ -17,10 +17,12 @@
 
 **/node_modules/**
 **/dist/**
+**/.vscode/**
 
 **/*.iml
 
 *.iml
+
 
 # Package Files #
 *.jar

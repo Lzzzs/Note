@@ -46,7 +46,7 @@
                 ) c
                 LEFT JOIN users u
                 on c.user_id = u.id
-                WHERE c.tag = #{tag}
+                WHERE c.tag like CONCAT(CONCAT('%', #{tag}), '%')
                 LIMIT #{page},#{size}
             </otherwise>
         </choose>
