@@ -38,24 +38,25 @@
     <el-dialog title="Create a Group" :visible.sync="dialogVisible" width="30%">
       <div class="create-group-form">
         <span class="label">Group Name</span>
-        <el-input type="text"></el-input>
+        <el-input type="text" v-model="addGroupName"></el-input>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >Create</el-button
-        >
+        <el-button @click="cancelAddGroup">Cancel</el-button>
+        <el-button type="primary" @click="confirmAddGroup">Create</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { addGroup } from '@/network/group'
+
 export default {
   data() {
     return {
       drawer: false,
       dialogVisible: false,
+      addGroupName: '',
       groups: [
         'group1',
         'group2',
@@ -79,6 +80,19 @@ export default {
     },
     createGroup() {
       this.dialogVisible = true
+    },
+    cancelAddGroup() {
+      this.dialogVisible = false
+      this.addGroupName = ''
+    },
+    confirmAddGroup() {
+      addGroup({
+        name: this.addGroupName,
+        userId: this.$store.state.userInfo.userid
+      }).then(() => {
+        this.dialogVisible = false
+        this.$message.success('create group success')
+      })
     }
   }
 }
