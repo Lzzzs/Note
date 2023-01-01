@@ -29,24 +29,26 @@
             <when test="tag == null">
                 select u.userid userId, c.noteId, c.title, c.note_img, c.tag, c.created_time
                 note_created_time
-                from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time
+                from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time, n.is_group
                 from user_note un
                 left JOIN notes n
                 on un.note_id = n.id) c
                 LEFT JOIN users u
-                on c.user_id = u.id LIMIT #{page},#{size}
+                on c.user_id = u.id
+                where c.is_group = 0
+                LIMIT #{page},#{size}
             </when>
             <otherwise>
                 select u.userid userId, c.noteId, c.title, c.content, c.note_img, c.tag, c.created_time
                 note_created_time from (
-                select un.user_id, n.id noteId, n.title, n.content, n.note_img, n.tag, n.created_time
+                select un.user_id, n.id noteId, n.title, n.content, n.note_img, n.tag, n.created_time, n.is_group
                 from user_note un
                 left JOIN notes n
                 on un.note_id = n.id
                 ) c
                 LEFT JOIN users u
                 on c.user_id = u.id
-                WHERE c.tag like CONCAT(CONCAT('%', #{tag}), '%')
+                WHERE c.tag like CONCAT(CONCAT('%', #{tag}), '%') and c.is_group = 0
                 LIMIT #{page},#{size}
             </otherwise>
         </choose>
@@ -57,9 +59,10 @@
             <when test="tag == null">
                 select count(1)
                 from notes
+                where is_group = 0
             </when>
             <otherwise>
-                select count(1) from notes where tag = #{tag}
+                select count(1) from notes where tag = #{tag} and is_group = 0
             </otherwise>
         </choose>
     </select>
@@ -113,13 +116,16 @@
                c.tag,
                c.created_time
                         note_created_time
-        from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time
+        from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time, n.is_group
               from user_note un
                        left JOIN notes n
                                  on un.note_id = n.id
               where ${field} like CONCAT(CONCAT('%', #{searchValue}), '%')) c
                  left JOIN users u
-                           on c.user_id = u.id LIMIT #{page}, #{size}
+                           on c.user_id = u.id
+        where c.is_group = 0
+            LIMIT #{page}
+            , #{size}
     </select>
 
     <select id="selectNoteBylikeUserId" resultMap="noteAndUserMap">
@@ -130,13 +136,14 @@
                c.tag,
                c.created_time
                         note_created_time
-        from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time
+        from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time, n.is_group
               from user_note un
                        left JOIN notes n
                                  on un.note_id = n.id) c
                  left JOIN users u
                            on c.user_id = u.id
         where u.userid like CONCAT(CONCAT('%', #{searchValue}), '%')
+          and c.is_group = 0
             LIMIT #{page}
             , #{size}
     </select>
@@ -145,14 +152,18 @@
         select count(1)
         from notes
         where title like CONCAT(CONCAT('%', #{searchValue}), '%')
+          and is_group = 0
     </select>
 
     <select id="getNoteBylikeUserIdCount" resultType="long">
         select count(1)
-        from (select u.id
-              from users u
-              where userid like CONCAT(CONCAT('%', #{searchValue}), '%')) c
-                 join user_note un on c.id = un.user_id
+        from (select note_id
+              from (select u.id
+                    from users u
+                    where userid like CONCAT(CONCAT('%', #{searchValue}), '%')) c
+                       join user_note un on c.id = un.user_id) nid
+                 left join notes n on nid.note_id = n.id
+        where n.is_group = 0
     </select>
 
     <select id="getId" resultType="String">
