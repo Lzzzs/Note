@@ -5,7 +5,7 @@
 <mapper namespace="top.lzzzs.mapper.NoteMapper">
     <insert id="saveNote" useGeneratedKeys="true" keyProperty="id">
         insert into notes
-        values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0)
+        values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0, 0)
     </insert>
 
     <insert id="saveUserNoteRelation">
