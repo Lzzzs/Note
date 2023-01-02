@@ -4,8 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.lzzzs.mapper.NoteMapper">
     <insert id="saveNote" useGeneratedKeys="true" keyProperty="id">
-        insert into notes
-        values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0, 0)
+        <choose>
+            <!-- if else-->
+            <when test="groupId == null">
+                insert into notes
+                values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0, 0)
+            </when>
+            <otherwise>
+                insert into notes
+                values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0, 1)
+            </otherwise>
+        </choose>
     </insert>
 
     <insert id="saveUserNoteRelation">
@@ -62,7 +71,7 @@
                 where is_group = 0
             </when>
             <otherwise>
-                select count(1) from notes where tag = #{tag} and is_group = 0
+                select count(1) from notes where tag like CONCAT(CONCAT('%', #{tag}), '%') and is_group = 0
             </otherwise>
         </choose>
     </select>

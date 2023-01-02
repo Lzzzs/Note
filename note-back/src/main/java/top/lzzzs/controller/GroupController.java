@@ -55,4 +55,10 @@ public class GroupController {
     public R selectOrganizeUserById(@RequestParam("id") int id) {
         return groupService.selectOrganizeUserById(id);
     }
+
+    // 分页查询
+    @GetMapping("/getOrganizeNotes")
+    public R getOrganizeNotes(@RequestParam("id") int id, @RequestParam("page") int page, @RequestParam("size") int size, String tag) {
+        return groupService.getOrganizeNotes(id, page, size, tag);
+    }
 }
