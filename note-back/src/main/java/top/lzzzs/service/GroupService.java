@@ -17,4 +17,6 @@ public interface GroupService {
     R selectOrganizeById(int id);
 
     R selectOrganizeUserById(int id);
+
+    R getOrganizeNotes(int id, int page, int size, String tag);
 }

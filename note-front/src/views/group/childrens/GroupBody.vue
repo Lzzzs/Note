@@ -12,18 +12,22 @@
         <span class="tip">请选择group</span>
       </div>
     </div>
-    <div class="note-container">body</div>
+
+    <GroupNote />
   </div>
 </template>
 
 <script>
 import { selectOrganizeUserById } from '@/network/group'
+import GroupNote from './GroupNote.vue'
+
 export default {
   data() {
     return {
       members: []
     }
   },
+  components: { GroupNote },
   mounted() {
     this.getMembers()
 
@@ -36,8 +40,10 @@ export default {
   },
   methods: {
     getMembers() {
-      const id = this.$route.params.group
-      if (!id) return
+      const arr = window.location.href.split('/')
+      const id = arr[arr.length - 1]
+
+      if (id === 'group' || !id) return
 
       selectOrganizeUserById(id).then((res) => {
         this.members = res.data
@@ -94,9 +100,6 @@ export default {
         font-size: 18px;
       }
     }
-  }
-  .note-container {
-    flex: 1;
   }
 }
 </style>

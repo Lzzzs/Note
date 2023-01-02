@@ -90,6 +90,11 @@ export default {
       const tags = this.tagValues.join(',')
 
       const formData = new FormData()
+
+      // 如果地址栏上有groupId，证明是分组内提交的
+      const id = this.$route?.query.groupId
+      if (id) formData.append('groupId', id)
+
       formData.append('noteImg', param.file)
       formData.append('title', this.title)
       formData.append('content', this.noteContent)
@@ -98,7 +103,7 @@ export default {
 
       saveNoteData(formData).then(() => {
         this.$message.success('笔记发布成功')
-        this.$router.push('/')
+        id ? this.$router.push(`/group/${id}`) : this.$router.push('/')
       })
     },
     validateNoteInfo() {

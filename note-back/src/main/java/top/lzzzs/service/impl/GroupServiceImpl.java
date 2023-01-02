@@ -3,7 +3,9 @@ package top.lzzzs.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.lzzzs.common.R;
+import top.lzzzs.entity.Notes;
 import top.lzzzs.entity.Organize;
+import top.lzzzs.entity.Pager;
 import top.lzzzs.mapper.GroupMapper;
 import top.lzzzs.mapper.NoteMapper;
 import top.lzzzs.service.GroupService;
@@ -75,4 +77,39 @@ public class GroupServiceImpl implements GroupService {
     public R selectOrganizeUserById(int id) {
         return R.success(groupMapper.selectOrganizeUserById(id));
     }
+
+    // 分页查询organize数据
+
+    /**
+     * {
+     * id,
+     * page,
+     * size,
+     * ?tag
+     * }
+     */
+    @Override
+    public R getOrganizeNotes(int id, int page, int size, String tag) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", (page - 1) * size);
+        map.put("size", size);
+        map.put("tag", tag);
+        map.put("id", id);
+
+        Pager<Notes> pager = new Pager<>();
+        List<Notes> organize = groupMapper.selectOrganizeByPager(map);
+
+        Map<String, Object> countMap = new HashMap<>();
+        countMap.put("id", id);
+        countMap.put("tag", tag);
+        long count = groupMapper.getOrganizeCount(countMap);
+
+        pager.setRows(organize);
+        pager.setTotal(count);
+        pager.setPage(page);
+        pager.setSize(size);
+
+        return R.success(pager);
+    }
+
 }

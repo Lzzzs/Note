@@ -34,7 +34,10 @@
           <el-dropdown-item disabled> 空 </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button type="primary" class="post-note-in-group"
+      <el-button
+        type="primary"
+        class="post-note-in-group"
+        @click="postGroupNote"
         >Post Notes in Group</el-button
       >
 
@@ -190,6 +193,15 @@ export default {
       selectOrganizeById(id).then((res) => {
         this.currentGroup = res.data.name
       })
+    },
+    postGroupNote() {
+      const id = this.$route.params.group
+      if (!id) {
+        this.$message.warning('请先选择group')
+        return
+      }
+
+      this.$router.push(`/submit-note?groupId=${id}`)
     }
   }
 }

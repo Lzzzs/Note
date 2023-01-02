@@ -15,6 +15,7 @@ import top.lzzzs.entity.Comments;
 import top.lzzzs.entity.Notes;
 import top.lzzzs.entity.Pager;
 import top.lzzzs.entity.Users;
+import top.lzzzs.mapper.GroupMapper;
 import top.lzzzs.mapper.NoteMapper;
 import top.lzzzs.mapper.SelfMapper;
 import top.lzzzs.mapper.UserMapper;
@@ -43,8 +44,12 @@ public class NoteServiceImpl implements NoteService {
 
     @Autowired
     UserMapper userMapper;
+
     @Autowired
     NoteMapper noteMapper;
+
+    @Autowired
+    GroupMapper groupMapper;
 
     @Autowired
     SelfService selfService;
@@ -77,6 +82,18 @@ public class NoteServiceImpl implements NoteService {
 
             // 保存笔记 返回笔记id会被赋值到params
             noteMapper.saveNote(params);
+
+            // 如果有groupId，说明是分组笔记
+            if (params.containsKey("groupId")) {
+
+                Map<String, Object> map = new HashMap<>();
+
+                map.put("organize_id", Integer.parseInt((String) params.get("groupId")));
+                map.put("note_id", params.get("id"));
+
+                // 添加organize和note的关系
+                groupMapper.addOrganizeToNote(map);
+            }
 
             // 获取提交笔记的用户的数据表id
             String userId = (String) params.get("userId");
@@ -385,7 +402,7 @@ public class NoteServiceImpl implements NoteService {
                 System.out.println(imgOutUrl + time + "/note-content/" + format + suffixName);
             } else {
                 // f = new File("src/main/resources/static/note-img/" + time + "/" + format + suffixName);
-                f = new File(imgOutUrl+ time + "/" + format + suffixName);
+                f = new File(imgOutUrl + time + "/" + format + suffixName);
                 System.out.println(imgOutUrl + time + "/" + format + suffixName);
             }
 

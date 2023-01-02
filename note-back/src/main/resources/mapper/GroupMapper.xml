@@ -39,4 +39,94 @@
               where organize_id = #{id}) c
                  left join users u on c.user_id = u.id
     </select>
+
+    <resultMap id="noteAndUserMap" type="top.lzzzs.entity.Notes">
+        <id property="id" column="noteId"/>
+        <result property="createdTime" column="note_created_time"/>
+        <result property="noteImg" column="note_img"/>
+        <result property="tag" column="tag"/>
+        <result property="title" column="title"/>
+        <association javaType="top.lzzzs.entity.Users" property="user" column="userId">
+            <id property="userid" column="userId"/>
+        </association>
+    </resultMap>
+    <select id="selectOrganizeByPager" resultMap="noteAndUserMap">
+        <choose>
+            <!-- if else-->
+            <when test="tag == null">
+                select u.userid userId,
+                temp.noteId,
+                temp.title,
+                temp.note_img,
+                temp.tag,
+                temp.created_time note_created_time
+                from (select un.user_id,
+                t.id noteId,
+                t.title,
+                t.content,
+                t.note_img,
+                t.tag,
+                t.created_time
+                from (select n.id, n.title, n.content, n.note_img, n.tag, n.created_time
+                from (select note_id
+                from organize_note
+                where organize_id = #{id}) c
+                left join notes n on
+                c.note_id = n.id) t
+                left join user_note un on t.id = un.note_id) temp
+                left join users u on temp.user_id
+                = u.id
+                limit #{page}, #{size}
+            </when>
+            <otherwise>
+                select u.userid userId,
+                temp.noteId,
+                temp.title,
+                temp.note_img,
+                temp.tag,
+                temp.created_time note_created_time
+                from (select un.user_id,
+                t.id noteId,
+                t.title,
+                t.content,
+                t.note_img,
+                t.tag,
+                t.created_time
+                from (select n.id, n.title, n.content, n.note_img, n.tag, n.created_time
+                from (select note_id
+                from organize_note
+                where organize_id = #{id}) c
+                left join notes n on
+                c.note_id = n.id) t
+                left join user_note un on t.id = un.note_id) temp
+                left join users u on temp.user_id
+                = u.id
+                WHERE temp.tag like CONCAT(CONCAT('%', #{tag}), '%')
+                limit #{page}, #{size}
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getOrganizeCount" resultType="long">
+        <choose>
+            <when test="tag == null">
+                select count(1)
+                from organize_note
+                where organize_id = #{id}
+            </when>
+            <otherwise>
+                select count(1) from (
+                select note_id
+                from organize_note
+                where organize_id = #{id}) c
+                left join notes n on c.note_id = n.id
+                where tag like CONCAT(CONCAT('%', #{tag}), '%')
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="addOrganizeToNote">
+        insert into organize_note
+        values (#{organize_id}, #{note_id})
+    </insert>
 </mapper>

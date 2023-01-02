@@ -1,6 +1,7 @@
 package top.lzzzs.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import top.lzzzs.entity.Notes;
 import top.lzzzs.entity.Organize;
 import top.lzzzs.entity.Users;
 
@@ -25,4 +26,12 @@ public interface GroupMapper {
     // 查询organize有哪些用户
     List<Users> selectOrganizeUserById(int id);
 
+    // 分页查询笔记
+    List<Notes> selectOrganizeByPager(Map<String, Object> params);
+
+    // 笔记总数量
+    long getOrganizeCount(Map<String, Object> params);
+
+    // 添加organize和note的关系
+    int addOrganizeToNote(Map<String, Object> info);
 }
