@@ -91,6 +91,10 @@ export default {
       }
     },
     handleSearch() {
+      if (this.$route.path.indexOf('group') !== -1) {
+        this.$message.warning('group does not support search yet')
+        return
+      }
       this.$bus.$emit('searchValue', this.searchValue)
     },
     toGroup() {

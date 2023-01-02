@@ -103,7 +103,9 @@ export default {
 
       saveNoteData(formData).then(() => {
         this.$message.success('笔记发布成功')
-        id ? this.$router.push(`/group/${id}`) : this.$router.push('/')
+        id
+          ? this.$router.push(`/group?id=${id}&page=1`)
+          : this.$router.push('/')
       })
     },
     validateNoteInfo() {

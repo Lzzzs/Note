@@ -61,10 +61,6 @@ const routes = [
       {
         path: '/group',
         component: () => import('../views/group/index.vue')
-      },
-      {
-        path: '/group/:group',
-        component: () => import('../views/group/index.vue')
       }
     ]
   },
