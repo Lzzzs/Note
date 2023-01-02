@@ -40,10 +40,9 @@ export default {
   },
   methods: {
     getMembers() {
-      const arr = window.location.href.split('/')
-      const id = arr[arr.length - 1]
+      const id = this.$route.query.id
 
-      if (id === 'group' || !id) return
+      if (!id) return
 
       selectOrganizeUserById(id).then((res) => {
         this.members = res.data

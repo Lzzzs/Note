@@ -178,7 +178,9 @@ export default {
     },
 
     choiceGroup(groupInfo) {
-      this.$router.push(`/group/${groupInfo.id}`)
+      this.$router.push({
+        path: `/group?id=${groupInfo.id}&page=1`
+      })
 
       // data update
       this.getCurrentGroup()
@@ -187,15 +189,16 @@ export default {
     },
 
     getCurrentGroup() {
-      const id = this.$route.params.group
+      const id = this.$route.query.id
       if (!id) return
 
       selectOrganizeById(id).then((res) => {
         this.currentGroup = res.data.name
+        this.$bus.$emit('getCurrentGroupName', res.data.name)
       })
     },
     postGroupNote() {
-      const id = this.$route.params.group
+      const id = this.$route.query.id
       if (!id) {
         this.$message.warning('请先选择group')
         return

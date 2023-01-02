@@ -15,6 +15,13 @@ export function selectOrganizeById(id) {
 export function selectOrganizeUserById(id) {
   return instance.get(`/group/selectOrganizeUserById?id=${id}`)
 }
+export function getOrganizeNotes(id, page, size, tag = '') {
+  let base = `/group/getOrganizeNotes?id=${id}&page=${page}&size=${size}`
+  if (tag != '') {
+    base += `&tag=${tag}`
+  }
+  return instance.get(base)
+}
 
 export function addOrganizeUser(organizeInfo) {
   /**
