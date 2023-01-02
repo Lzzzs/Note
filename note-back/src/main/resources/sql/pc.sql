@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 25/10/2022 19:24:35
+ Date: 02/01/2023 20:02:16
 */
 
 SET NAMES utf8mb4;
@@ -69,7 +69,7 @@ CREATE TABLE `comments` (
   KEY `comment-noteId` (`note_id`),
   CONSTRAINT `comment-noteId` FOREIGN KEY (`note_id`) REFERENCES `notes` (`id`),
   CONSTRAINT `comment-userId` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for grade
@@ -107,8 +107,49 @@ CREATE TABLE `notes` (
   `created_time` datetime NOT NULL,
   `like_num` int unsigned DEFAULT '0',
   `collect_num` int unsigned DEFAULT '0',
+  `is_group` int DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for organize
+-- ----------------------------
+DROP TABLE IF EXISTS `organize`;
+CREATE TABLE `organize` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `created_time` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `UserIDorganize` (`user_id`),
+  CONSTRAINT `UserIDorganize` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for organize_note
+-- ----------------------------
+DROP TABLE IF EXISTS `organize_note`;
+CREATE TABLE `organize_note` (
+  `organize_id` int NOT NULL,
+  `note_id` int NOT NULL,
+  KEY `groupNoteId` (`note_id`),
+  KEY `organizeIdNote` (`organize_id`),
+  CONSTRAINT `groupNoteId` FOREIGN KEY (`note_id`) REFERENCES `notes` (`id`),
+  CONSTRAINT `organizeIdNote` FOREIGN KEY (`organize_id`) REFERENCES `organize` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for organize_user
+-- ----------------------------
+DROP TABLE IF EXISTS `organize_user`;
+CREATE TABLE `organize_user` (
+  `organize_id` int NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  KEY `group_user_id` (`user_id`),
+  KEY `organizeUserId` (`organize_id`),
+  CONSTRAINT `group_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `organizeUserId` FOREIGN KEY (`organize_id`) REFERENCES `organize` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for point
@@ -134,7 +175,7 @@ CREATE TABLE `user_note` (
   KEY `noteId` (`note_id`),
   CONSTRAINT `noteId` FOREIGN KEY (`note_id`) REFERENCES `notes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `userId` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for users
