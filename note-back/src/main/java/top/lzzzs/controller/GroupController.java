@@ -1,10 +1,7 @@
 package top.lzzzs.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.lzzzs.common.R;
 import top.lzzzs.service.GroupService;
 
@@ -25,5 +22,37 @@ public class GroupController {
     @PostMapping("/addGroup")
     public R addGroup(@RequestBody Map<String, String> groupInfo) {
         return groupService.addGroup(groupInfo);
+    }
+
+    @GetMapping("/selectAllOrganize")
+    public R selectAllOrganize() {
+        return groupService.selectAllOrganize();
+    }
+
+    @GetMapping("/selectOrganizeByUserId")
+    public R selectOrganizeByUserId(@RequestParam("userId") String userId) {
+        return groupService.selectOrganizeByUserId(userId);
+    }
+
+    // 添加organize_user 关系
+    @PostMapping("/addOrganizeUser")
+    public R addOrganizeUser(@RequestBody Map<String, Object> organizeInfo) {
+        /**
+         * {
+         *     id:
+         *     userId:
+         * }
+         */
+        return groupService.addOrganizeUser(organizeInfo);
+    }
+
+    @GetMapping("/selectOrganizeById")
+    public R selectOrganizeById(@RequestParam("id") int id) {
+        return groupService.selectOrganizeById(id);
+    }
+
+    @GetMapping("/selectOrganizeUserById")
+    public R selectOrganizeUserById(@RequestParam("id") int id) {
+        return groupService.selectOrganizeUserById(id);
     }
 }

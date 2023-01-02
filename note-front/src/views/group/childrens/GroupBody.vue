@@ -2,72 +2,14 @@
   <div class="group-body">
     <div class="group-members">
       <div class="group-members-text">Group Members</div>
-      <div class="group-members-list">
-        <div class="member">
-          <el-avatar
-            size="small"
-            src="http://localhost:8888/static/avatarTwo.png"
-          >
-          </el-avatar>
-          <span class="member-name">admin</span>
+      <div class="group-members-list" v-if="members.length !== 0">
+        <div class="member" v-for="item in members" :key="item.userid">
+          <el-avatar size="small" :src="item.avatarUrl"> </el-avatar>
+          <span class="member-name">{{ item.userid }}</span>
         </div>
-        <div class="member">
-          <el-avatar
-            size="small"
-            src="http://localhost:8888/static/avatarTwo.png"
-          >
-          </el-avatar>
-          <span class="member-name">admin</span>
-        </div>
-        <div class="member">
-          <el-avatar
-            size="small"
-            src="http://localhost:8888/static/avatarTwo.png"
-          >
-          </el-avatar>
-          <span class="member-name">admin</span>
-        </div>
-        <div class="member">
-          <el-avatar
-            size="small"
-            src="http://localhost:8888/static/avatarTwo.png"
-          >
-          </el-avatar>
-          <span class="member-name">admin</span>
-        </div>
-
-        <div class="member">
-          <el-avatar
-            size="small"
-            src="http://localhost:8888/static/avatarTwo.png"
-          >
-          </el-avatar>
-          <span class="member-name">admin</span>
-        </div>
-        <div class="member">
-          <el-avatar
-            size="small"
-            src="http://localhost:8888/static/avatarTwo.png"
-          >
-          </el-avatar>
-          <span class="member-name">admin</span>
-        </div>
-        <div class="member">
-          <el-avatar
-            size="small"
-            src="http://localhost:8888/static/avatarTwo.png"
-          >
-          </el-avatar>
-          <span class="member-name">admin</span>
-        </div>
-        <div class="member">
-          <el-avatar
-            size="small"
-            src="http://localhost:8888/static/avatarTwo.png"
-          >
-          </el-avatar>
-          <span class="member-name">admin</span>
-        </div>
+      </div>
+      <div class="group-members-list" v-else>
+        <span class="tip">请选择group</span>
       </div>
     </div>
     <div class="note-container">body</div>
@@ -75,7 +17,34 @@
 </template>
 
 <script>
-export default {}
+import { selectOrganizeUserById } from '@/network/group'
+export default {
+  data() {
+    return {
+      members: []
+    }
+  },
+  mounted() {
+    this.getMembers()
+
+    this.$bus.$on('updated-body', () => {
+      this.getMembers()
+    })
+  },
+  beforeDestroy() {
+    this.$bus.$off('updated-body')
+  },
+  methods: {
+    getMembers() {
+      const id = this.$route.params.group
+      if (!id) return
+
+      selectOrganizeUserById(id).then((res) => {
+        this.members = res.data
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -113,6 +82,16 @@ export default {}
           display: block;
           margin-left: 10px;
         }
+      }
+
+      .tip {
+        display: block;
+        display: flex;
+        height: 100px;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
       }
     }
   }

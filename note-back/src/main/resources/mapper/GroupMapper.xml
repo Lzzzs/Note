@@ -3,8 +3,40 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.lzzzs.mapper.GroupMapper">
-    <insert id="addGroup">
+    <insert id="addGroup" useGeneratedKeys="true" keyProperty="id">
         insert into organize
         values (null, #{name}, #{userId}, #{createdTime})
     </insert>
+
+    <insert id="addOrganizeToUser">
+        insert into organize_user
+        values (#{id}, #{userId})
+    </insert>
+
+    <select id="selectAllOrganize" resultType="top.lzzzs.entity.Organize">
+        select *
+        from organize
+    </select>
+
+    <select id="selectOrganizeByUserId" resultType="top.lzzzs.entity.Organize">
+        select *
+        from (select *
+              from organize_user
+              where user_id = #{userId}) c
+                 left join organize o on c.organize_id = o.id
+    </select>
+
+    <select id="selectOrganizeById" resultType="top.lzzzs.entity.Organize">
+        select *
+        from organize
+        where id = #{id}
+    </select>
+
+    <select id="selectOrganizeUserById" resultType="top.lzzzs.entity.Users">
+        select *
+        from (select user_id
+              from organize_user
+              where organize_id = #{id}) c
+                 left join users u on c.user_id = u.id
+    </select>
 </mapper>
