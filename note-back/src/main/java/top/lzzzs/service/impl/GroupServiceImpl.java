@@ -70,4 +70,9 @@ public class GroupServiceImpl implements GroupService {
     public R selectOrganizeById(int id) {
         return R.success(groupMapper.selectOrganizeById(id));
     }
+
+    @Override
+    public R selectOrganizeUserById(int id) {
+        return R.success(groupMapper.selectOrganizeUserById(id));
+    }
 }

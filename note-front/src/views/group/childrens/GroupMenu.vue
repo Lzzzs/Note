@@ -176,11 +176,18 @@ export default {
 
     choiceGroup(groupInfo) {
       this.$router.push(`/group/${groupInfo.id}`)
+
+      // data update
       this.getCurrentGroup()
+      // 通知group-body当前group已经改变了，需要更新数据
+      this.$bus.$emit('updated-body')
     },
 
     getCurrentGroup() {
-      selectOrganizeById(this.$route.params.group).then((res) => {
+      const id = this.$route.params.group
+      if (!id) return
+
+      selectOrganizeById(id).then((res) => {
         this.currentGroup = res.data.name
       })
     }

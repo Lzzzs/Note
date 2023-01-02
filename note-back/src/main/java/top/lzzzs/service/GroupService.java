@@ -15,4 +15,6 @@ public interface GroupService {
     R addOrganizeUser(Map<String, Object> organizeInfo);
 
     R selectOrganizeById(int id);
+
+    R selectOrganizeUserById(int id);
 }

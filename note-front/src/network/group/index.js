@@ -12,6 +12,9 @@ export function selectOrganizeByUserId(userId) {
 export function selectOrganizeById(id) {
   return instance.get(`/group/selectOrganizeById?id=${id}`)
 }
+export function selectOrganizeUserById(id) {
+  return instance.get(`/group/selectOrganizeUserById?id=${id}`)
+}
 
 export function addOrganizeUser(organizeInfo) {
   /**

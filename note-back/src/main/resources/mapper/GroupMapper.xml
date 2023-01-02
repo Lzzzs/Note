@@ -31,4 +31,12 @@
         from organize
         where id = #{id}
     </select>
+
+    <select id="selectOrganizeUserById" resultType="top.lzzzs.entity.Users">
+        select *
+        from (select user_id
+              from organize_user
+              where organize_id = #{id}) c
+                 left join users u on c.user_id = u.id
+    </select>
 </mapper>

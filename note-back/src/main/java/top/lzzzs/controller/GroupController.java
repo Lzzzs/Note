@@ -50,4 +50,9 @@ public class GroupController {
     public R selectOrganizeById(@RequestParam("id") int id) {
         return groupService.selectOrganizeById(id);
     }
+
+    @GetMapping("/selectOrganizeUserById")
+    public R selectOrganizeUserById(@RequestParam("id") int id) {
+        return groupService.selectOrganizeUserById(id);
+    }
 }

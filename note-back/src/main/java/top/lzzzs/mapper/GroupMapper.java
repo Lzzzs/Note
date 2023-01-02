@@ -2,6 +2,7 @@ package top.lzzzs.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import top.lzzzs.entity.Organize;
+import top.lzzzs.entity.Users;
 
 import java.util.List;
 import java.util.Map;
@@ -20,5 +21,8 @@ public interface GroupMapper {
     List<Organize> selectOrganizeByUserId(String userId);
 
     Organize selectOrganizeById(int id);
+
+    // 查询organize有哪些用户
+    List<Users> selectOrganizeUserById(int id);
 
 }
