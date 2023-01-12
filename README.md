@@ -38,26 +38,29 @@
 
 ![在这里插入图片描述](https://raw.githubusercontent.com/Lzzzs/Note/main/note-image/index.png)
 
-###### 4、笔记页
+###### 4、提交笔记页面
+
+![](https://raw.githubusercontent.com/Lzzzs/Note/main/note-image/submit.png)
+
+
+
+###### 5、笔记页
 
 ![在这里插入图片描述](https://raw.githubusercontent.com/Lzzzs/Note/main/note-image/note.png)
 
-###### 5、评论区
+###### 6、评论区
 
 ![在这里插入图片描述](https://raw.githubusercontent.com/Lzzzs/Note/main/note-image/comment.png)
 
-###### 6、我的笔记
+###### 7、我的笔记
 
 ![在这里插入图片描述](https://raw.githubusercontent.com/Lzzzs/Note/main/note-image/myNote.png)
 
-###### 7、我的收藏
+###### 8、我的收藏
 
 ![在这里插入图片描述](https://raw.githubusercontent.com/Lzzzs/Note/main/note-image/myCollect.png)
-
----
-
-### 项目源码
 
 > 觉得还可以的话，麻烦给个 star ✨✨✨
 
 ###### GitHub 地址：[https://github.com/Lzzzs/Note](https://github.com/Lzzzs/Note)
+
