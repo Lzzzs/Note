@@ -30,4 +30,6 @@ public interface SelfMapper {
                                                              @Param("id") String id);
 
     int getUserAllCollectNotesCount(String id);
+
+    int deleteNoteByNoteId(int noteId);
 }

@@ -117,4 +117,15 @@ public class SelfServiceImpl implements SelfService {
     }
 
 
+    @Override
+    public R deleteNotes(Map<String, Object> deleteNoteInfo) {
+        System.out.println(deleteNoteInfo);
+        List<Number> notes = (List<Number>) deleteNoteInfo.get("notes");
+
+        for (Number noteId : notes) {
+            selfMapper.deleteNoteByNoteId((Integer) noteId);
+        }
+
+        return R.success(null);
+    }
 }

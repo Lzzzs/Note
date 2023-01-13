@@ -1,12 +1,12 @@
 package top.lzzzs.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.lzzzs.common.R;
+import top.lzzzs.common.dto.DianzanDto;
 import top.lzzzs.service.SelfService;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/self")
@@ -43,6 +43,11 @@ public class SelfController {
                                             @RequestParam("size") int size,
                                             @RequestParam("userId") String userId) {
         return selfService.getUserAllCollectNotesByUserId(page, size, userId);
+    }
+
+    @PostMapping("/deleteNotes")
+    public R deleteNotes(@RequestBody Map<String, Object> deleteNoteInfo) {
+        return selfService.deleteNotes(deleteNoteInfo);
     }
 
 }

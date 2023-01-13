@@ -13,6 +13,12 @@
             <i class="el-icon-picture-outline"></i>
           </div>
         </el-image>
+
+        <el-checkbox
+          :value="isDelete"
+          @change="changeDelete"
+          class="delete-checkbox"
+        ></el-checkbox>
       </div>
     </div>
 
@@ -40,6 +46,11 @@ export default {
   beforeCreate() {
     this.isLoading = true
   },
+  computed: {
+    isDelete() {
+      return this.$store.state.self.deleteNotes.includes(this.itemData.noteId)
+    }
+  },
   methods: {
     handleGetNote() {
       this.$router.push({
@@ -53,6 +64,16 @@ export default {
       setTimeout(() => {
         this.isLoading = false
       }, 500)
+    },
+    changeDelete(deleteStatus) {
+      const id = this.itemData.noteId
+      const notesId = this.$store.state.self.deleteNotes
+      let t = []
+
+      deleteStatus
+        ? (t = [...notesId, id])
+        : (t = notesId.filter((i) => i !== id))
+      this.$store.commit('SET_DELETE_NOTES', t)
     }
   }
 }
@@ -66,6 +87,9 @@ export default {
     display: flex;
     justify-content: center;
     padding: 20px 20px 10px 20px;
+
+    position: relative;
+
     .img {
       width: 80%;
       height: 300px;
@@ -74,6 +98,15 @@ export default {
       &:hover {
         cursor: pointer;
       }
+    }
+
+    .delete-checkbox {
+      position: absolute;
+      top: 6%;
+      left: 15%;
+
+      width: 30px;
+      height: 30px;
     }
   }
 

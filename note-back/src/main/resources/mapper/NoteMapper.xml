@@ -41,7 +41,7 @@
                 from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time, n.is_group
                 from user_note un
                 left JOIN notes n
-                on un.note_id = n.id) c
+                on un.note_id = n.id where n.isDelete = 0) c
                 LEFT JOIN users u
                 on c.user_id = u.id
                 where c.is_group = 0
@@ -54,6 +54,7 @@
                 from user_note un
                 left JOIN notes n
                 on un.note_id = n.id
+                where n.isDelete = 0
                 ) c
                 LEFT JOIN users u
                 on c.user_id = u.id
@@ -68,10 +69,11 @@
             <when test="tag == null">
                 select count(1)
                 from notes
-                where is_group = 0
+                where is_group = 0 and isDelete = 0
             </when>
             <otherwise>
-                select count(1) from notes where tag like CONCAT(CONCAT('%', #{tag}), '%') and is_group = 0
+                select count(1) from notes where tag like CONCAT(CONCAT('%', #{tag}), '%') and is_group = 0 and isDelete
+                = 0
             </otherwise>
         </choose>
     </select>
@@ -113,7 +115,8 @@
                      n.created_time
               from notes n
                        LEFT JOIN user_note un on n.id = un.note_id
-              where n.id = #{id}) c
+              where n.id = #{id}
+                and n.isDelete = 0) c
                  LEFT JOIN users u on c.userId = u.id
     </select>
 
@@ -129,7 +132,8 @@
               from user_note un
                        left JOIN notes n
                                  on un.note_id = n.id
-              where ${field} like CONCAT(CONCAT('%', #{searchValue}), '%')) c
+              where ${field} like CONCAT(CONCAT('%', #{searchValue}), '%')
+                and n.isDelete = 0) c
                  left JOIN users u
                            on c.user_id = u.id
         where c.is_group = 0
@@ -148,7 +152,8 @@
         from (select un.user_id, n.id noteId, n.title, n.note_img, n.tag, n.created_time, n.is_group
               from user_note un
                        left JOIN notes n
-                                 on un.note_id = n.id) c
+                                 on un.note_id = n.id
+              where n.isDelete = 0) c
                  left JOIN users u
                            on c.user_id = u.id
         where u.userid like CONCAT(CONCAT('%', #{searchValue}), '%')
@@ -162,6 +167,7 @@
         from notes
         where title like CONCAT(CONCAT('%', #{searchValue}), '%')
           and is_group = 0
+          and isDelete = 0
     </select>
 
     <select id="getNoteBylikeUserIdCount" resultType="long">
@@ -173,6 +179,7 @@
                        join user_note un on c.id = un.user_id) nid
                  left join notes n on nid.note_id = n.id
         where n.is_group = 0
+          and n.isDelete = 0
     </select>
 
     <select id="getId" resultType="String">
