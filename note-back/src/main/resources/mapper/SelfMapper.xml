@@ -35,7 +35,8 @@
         select un.note_id noteId, n.note_img noteImg
         from user_note un
                  left join notes n on un.note_id = n.id
-        where un.user_id = #{id} limit #{page}
+        where un.user_id = #{id}
+          and isDelete = 0 limit #{page}
             , #{size}
     </select>
     <select id="getUserAllNotesCount" resultType="int">
@@ -43,6 +44,7 @@
         from user_note un
                  left join notes n on un.note_id = n.id
         where un.user_id = #{id}
+          and isDelete = 0
     </select>
 
 
@@ -50,7 +52,8 @@
         select cn.note_id noteId, n.note_img noteImg
         from collect_num cn
                  left join notes n on cn.note_id = n.id
-        where cn.user_id = #{id} limit #{page}
+        where cn.user_id = #{id}
+          and isDelete = 0 limit #{page}
             , #{size}
     </select>
     <select id="getUserAllCollectNotesCount" resultType="int">
@@ -58,5 +61,12 @@
         from collect_num cn
                  left join notes n on cn.note_id = n.id
         where cn.user_id = #{id}
+          and isDelete = 0
     </select>
+
+    <update id="deleteNoteByNoteId">
+        update notes
+        set isDelete = 1
+        where id = #{noteId}
+    </update>
 </mapper>

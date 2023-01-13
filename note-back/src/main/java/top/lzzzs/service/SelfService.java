@@ -2,6 +2,8 @@ package top.lzzzs.service;
 
 import top.lzzzs.common.R;
 
+import java.util.Map;
+
 public interface SelfService {
     R getGradeInfo(String userId);
 
@@ -16,4 +18,6 @@ public interface SelfService {
     R getUserAllNotesByUserId(int page, int size, String userId);
 
     R getUserAllCollectNotesByUserId(int page, int size, String userId);
+
+    R deleteNotes(Map<String, Object> deleteNoteInfo);
 }

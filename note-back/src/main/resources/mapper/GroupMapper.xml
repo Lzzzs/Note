@@ -72,7 +72,7 @@
                 from organize_note
                 where organize_id = #{id}) c
                 left join notes n on
-                c.note_id = n.id) t
+                c.note_id = n.id where isDelete = 0) t
                 left join user_note un on t.id = un.note_id) temp
                 left join users u on temp.user_id
                 = u.id
@@ -97,7 +97,7 @@
                 from organize_note
                 where organize_id = #{id}) c
                 left join notes n on
-                c.note_id = n.id) t
+                c.note_id = n.id where isDelete = 0) t
                 left join user_note un on t.id = un.note_id) temp
                 left join users u on temp.user_id
                 = u.id
@@ -110,9 +110,12 @@
     <select id="getOrganizeCount" resultType="long">
         <choose>
             <when test="tag == null">
-                select count(1)
+                select count(1) from (
+                select note_id
                 from organize_note
-                where organize_id = #{id}
+                where organize_id = #{id}) c
+                left join notes n on c.note_id = n.id
+                where isDelete = 0
             </when>
             <otherwise>
                 select count(1) from (
@@ -120,7 +123,7 @@
                 from organize_note
                 where organize_id = #{id}) c
                 left join notes n on c.note_id = n.id
-                where tag like CONCAT(CONCAT('%', #{tag}), '%')
+                where tag like CONCAT(CONCAT('%', #{tag}), '%') and isDelete = 0
             </otherwise>
         </choose>
     </select>
