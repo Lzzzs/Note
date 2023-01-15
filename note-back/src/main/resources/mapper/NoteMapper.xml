@@ -8,11 +8,11 @@
             <!-- if else-->
             <when test="groupId == null">
                 insert into notes
-                values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0, 0)
+                values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0, 0, 0)
             </when>
             <otherwise>
                 insert into notes
-                values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0, 1)
+                values (null, #{title}, #{content}, #{tag}, #{noteImg}, #{createdTime}, 0, 0, 1, 0)
             </otherwise>
         </choose>
     </insert>
