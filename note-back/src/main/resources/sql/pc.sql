@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 02/01/2023 20:02:16
+ Date: 15/01/2023 20:35:14
 */
 
 SET NAMES utf8mb4;
@@ -69,7 +69,7 @@ CREATE TABLE `comments` (
   KEY `comment-noteId` (`note_id`),
   CONSTRAINT `comment-noteId` FOREIGN KEY (`note_id`) REFERENCES `notes` (`id`),
   CONSTRAINT `comment-userId` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for grade
@@ -108,6 +108,7 @@ CREATE TABLE `notes` (
   `like_num` int unsigned DEFAULT '0',
   `collect_num` int unsigned DEFAULT '0',
   `is_group` int DEFAULT '0',
+  `isDelete` int DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
