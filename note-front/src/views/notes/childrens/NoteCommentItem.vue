@@ -25,8 +25,13 @@
         <span class="time">{{ itemData.createdTime }}</span>
         <span class="dianzan" :class="isLiked">
           <i class="iconfont icon-dianzan dianzan" @click="handleDianzan"> </i>
-          {{ itemLike ? itemLike.likeNum : "" }}
+          {{ itemLike ? itemLike.likeNum : '' }}
         </span>
+        <i
+          class="el-icon-delete delete-icon"
+          v-if="isDelete"
+          @click="deleteComment"
+        ></i>
         <span class="reply" @click="handleReply">Reply</span>
       </div>
     </div>
@@ -37,69 +42,82 @@
 import {
   addDianzanComment,
   reduceDianzanComment,
-} from "@/network/note/index.js";
+  deleteCommentById
+} from '@/network/note/index.js'
 export default {
-  props: ["itemData", "itemLike", "imgSize"],
+  props: ['itemData', 'itemLike', 'imgSize'],
   data() {
-    return {};
+    return {}
   },
   computed: {
     /**
      * 该item是否是子评论
      */
     isChild() {
-      return this.itemData.level != 0;
+      return this.itemData.level != 0
     },
     isLiked() {
-      if (!this.itemLike) return "";
-      return this.itemLike.isLiked == 1 ? "active" : "";
+      if (!this.itemLike) return ''
+      return this.itemLike.isLiked == 1 ? 'active' : ''
     },
+    isDelete() {
+      if (!this.$store.state.userInfo) {
+        return false
+      }
+      return this.itemData.userId === this.$store.state.userInfo.userid
+    }
   },
   methods: {
     handleDianzan() {
       if (!this.isLogin()) {
-        this.$message.warning("请登录之后再进行操作");
-        return;
+        this.$message.warning('请登录之后再进行操作')
+        return
       }
       if (this.itemLike.isLiked === 0) {
         // 当前用户还未给这篇笔记点过赞
         addDianzanComment(this.getDianZanDto()).then((res) => {
-          console.log(res);
+          console.log(res)
           // 刷新数据
-          this.reloadGetData();
-        });
+          this.reloadGetData()
+        })
       } else {
         // 当前用户已经给这篇笔记点过赞
         reduceDianzanComment(this.getDianZanDto()).then((res) => {
-          console.log(res);
+          console.log(res)
           // 刷新数据
-          this.reloadGetData();
-        });
+          this.reloadGetData()
+        })
       }
     },
     handleReply() {
-      this.$emit("replyUser", {
+      this.$emit('replyUser', {
         id: this.itemData.id,
         userName: this.itemData.userId,
         parentId: this.itemData.parentId,
-        noteId: this.itemData.noteId,
-      });
+        noteId: this.itemData.noteId
+      })
     },
     reloadGetData() {
-      this.$emit("reloadLikeData");
+      this.$emit('reloadLikeData')
     },
     isLogin() {
-      return this.$store.state.userInfo !== null;
+      return this.$store.state.userInfo !== null
     },
     getDianZanDto() {
       const obj = {
         userId: this.$store.state.userInfo.userid,
-        commentId: this.itemData.id,
-      };
-      return obj;
+        commentId: this.itemData.id
+      }
+      return obj
     },
-  },
-};
+    deleteComment() {
+      deleteCommentById({ id: this.itemData.id }).then(() => {
+        this.$message.success('delete success')
+        this.$emit('reloadComment')
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -147,6 +165,11 @@ export default {
             cursor: pointer;
           }
         }
+      }
+      .delete-icon {
+        cursor: pointer;
+        margin-left: 5px;
+        user-select: none;
       }
 
       .active {

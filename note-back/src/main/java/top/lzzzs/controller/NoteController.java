@@ -159,4 +159,9 @@ public class NoteController {
     public R reduceDianzanComment(@RequestBody CommentDianzanDto commentDianzanDto) {
         return noteService.reduceDianzanComment(commentDianzanDto);
     }
+
+    @PostMapping("/deleteCommentById")
+    public R deleteCommentById(@RequestBody Map<String, String> commentInfo) {
+        return noteService.deleteCommentById(commentInfo);
+    }
 }

@@ -29,10 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class NoteServiceImpl implements NoteService {
@@ -355,6 +352,7 @@ public class NoteServiceImpl implements NoteService {
         return R.success(1);
     }
 
+
     public void paddingUserInfo(Comments comment) {
         Map<String, Object> userInfo = noteMapper.getUserInfoById(comment.getUserId());
         comment.setUserId((String) userInfo.get("userid"));
@@ -465,6 +463,41 @@ public class NoteServiceImpl implements NoteService {
             urlMap.put(filename, url);
         }
         return urlMap;
+    }
+
+
+    @Override
+    public R deleteCommentById(Map<String, String> commentInfo) {
+        int commentId = Integer.parseInt(commentInfo.get("id"));
+
+        Comments comment = noteMapper.getCommentByCommentId(commentId);
+        int level = comment.getLevel();
+
+        if (level == 0) {
+            // 当前要删除的是父级评论
+
+            // 获取当前父评论下的所有子评论, 将评论删除
+            List<Comments> childrenComments = noteMapper.getChildrenCommentByParentId(commentId);
+            for (Comments childrenComment : childrenComments) {
+                // 删除comments表中的评论，以及删除comment_like_num中的关系
+                deleteComment(childrenComment.getId());
+            }
+
+            // 删除父评论
+            deleteComment(comment.getId());
+        } else {
+            // 当前要删除的是子级评论
+            deleteComment(commentId);
+        }
+
+        return R.success(null);
+    }
+
+    // 删除comments表中的评论，以及删除comment_like_num中的关系, 和删除comment_like_relation
+    public void deleteComment(int id) {
+        noteMapper.deleteCommentLikeNumById(id);
+        noteMapper.deleteCommentLikeRelationById(id);
+        noteMapper.deleteCommentById(id);
     }
 
 }
