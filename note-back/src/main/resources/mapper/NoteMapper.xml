@@ -340,4 +340,31 @@
         insert into comment_like_num
         values (#{id}, 0)
     </insert>
+
+    <delete id="deleteCommentById">
+        delete
+        from comments
+        where id =
+              #{id}
+    </delete>
+
+    <delete id="deleteCommentLikeNumById">
+        delete
+        from comment_like_num
+        where comment_id =
+              #{id}
+    </delete>
+
+    <select id="getChildrenCommentByParentId" resultType="top.lzzzs.entity.Comments">
+        select *
+        from comments
+        where parent_id = #{id}
+    </select>
+
+    <delete id="deleteCommentLikeRelationById">
+        delete
+        from comment_like_relation
+        where comment_id =
+              #{id}
+    </delete>
 </mapper>

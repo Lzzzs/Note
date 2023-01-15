@@ -39,4 +39,6 @@ public interface NoteService {
     R reduceDianzanComment(CommentDianzanDto commentDianzanDto);
 
     R saveComment(Comments commentData);
+
+    R deleteCommentById(Map<String, String> commentInfo);
 }

@@ -104,4 +104,12 @@ public interface NoteMapper {
     int saveComment(Comments commentData);
 
     int initCommentLikeNum(int id);
+
+    int deleteCommentById(int id);
+
+    int deleteCommentLikeNumById(int id);
+
+    int deleteCommentLikeRelationById(int id);
+
+    List<Comments> getChildrenCommentByParentId(int id);
 }
