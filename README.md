@@ -60,7 +60,3 @@
 
 ![在这里插入图片描述](https://raw.githubusercontent.com/Lzzzs/Note/main/note-image/myCollect.png)
 
-> 觉得还可以的话，麻烦给个 star ✨✨✨
-
-###### GitHub 地址：[https://github.com/Lzzzs/Note](https://github.com/Lzzzs/Note)
-
